@@ -16,6 +16,7 @@ pico /etc/apache2/conf.d/mod_evasive.conf
   DOSWhitelist        192.168.?.?
 
   DOSEmailNotify      you@yourdomain.com
+  #DOSSystemCommand   "sudo /usr/bin/iptables -I INPUT -p tcp -s %s -J DROP"
   DOSLogDir           "/var/log/mod_evasive"
 ```
 Adapun penjelasan untuk masing-masing parameter adalah sebagai berikut:<br>
@@ -51,3 +52,12 @@ tail /var/log/syslog
 tail /var/log/apache2/access.log
 ```
 dan akan tampil bahwa ip 127.0.0.1 kena blacklist pada syslog, dan 403 pada access.log
+## Integrasi dengan firewall
+Kita dapat mengaktifkan setting DOSSystemCommand untuk mengintegrasikan ModEvasive dengan Firewall dengan menggunakan iptables, tetapi perlu dipastikan bahwa user www-data mendapatkan sudoers
+```
+pico /etc/sudoers
+```
+dan tambahkan baris berikut ini
+```
+www-data ALL=NOPASSWD: /sbin/iptables *
+```
