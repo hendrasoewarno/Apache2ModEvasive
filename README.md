@@ -12,6 +12,8 @@ pico /etc/apache2/conf.d/mod_evasive.conf
   DOSPageInterval     1
   DOSSiteInterval     2
   DOSBlockingPeriod   10
+  
+  DOSWhitelist        192.168.?.?
 
   DOSEmailNotify      you@yourdomain.com
   DOSLogDir           "/var/log/mod_evasive"
