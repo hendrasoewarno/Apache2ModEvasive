@@ -1,5 +1,5 @@
-# Menangani DDos pada Apache dengan Mod-Evasive
-Mod-Evasive adalah module tambahan pada Apache2 untuk mencegah serangan DDoS pada level aplikasi Web.
+# Menangani DoS pada Apache dengan Mod-Evasive
+Salah satu modus serangan Web adalah melancarkan serangan DoS yang menyebabkan server kehabisan resources untuk melayani user yang sah. Mod-Evasive adalah module tambahan pada Apache2 untuk mencegah serangan DoS pada level aplikasi Web.
 ```
 apt-get install libapache2-mod-evasive
 ```
@@ -53,7 +53,11 @@ tail /var/log/apache2/access.log
 ```
 dan akan tampil bahwa ip 127.0.0.1 kena blacklist pada syslog, dan 403 pada access.log
 ## Integrasi dengan firewall
-Kita dapat mengaktifkan setting DOSSystemCommand untuk mengintegrasikan ModEvasive dengan Firewall dengan menggunakan iptables, tetapi perlu dipastikan bahwa user www-data mendapatkan sudoers
+Kita dapat mengaktifkan setting DOSSystemCommand untuk mengintegrasikan ModEvasive dengan Firewall dengan menggunakan iptables, dengan menghilangkan tanda # pada setting DOSSystemCommand untuk mengaktifkan iptables.
+```
+#DOSSystemCommand   "sudo /usr/bin/iptables -I INPUT -p tcp -s %s -J DROP"
+```
+Tetapi perlu dipastikan bahwa user www-data mendapatkan sudoers
 ```
 pico /etc/sudoers
 ```
@@ -61,3 +65,5 @@ dan tambahkan baris berikut ini
 ```
 www-data ALL=NOPASSWD: /sbin/iptables *
 ```
+# Kesimpulan
+Mod-Evasive adalah lapisan keamanan yang dapat diterapkan pada Apache2 untuk mencegah serangan DoS pada level per-halaman, maupun per-website dengan menentukan suatu batasan jumlah request per-page ataupun per-site untuk satu satuan waktu tertentu, jika batasan tersebut terlewati maka server web akan merespon 403 Forbidden terhadap request dari client untuk suatu jangka waktu tertentu. Untuk membatasi penyerang dari level packet, tersedia fasilitas untuk integrasi dengan fungsi firewall iptables sehingga dapat lebih menghemat resource Web Server.
