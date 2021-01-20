@@ -52,6 +52,8 @@ tail /var/log/syslog
 tail /var/log/apache2/access.log
 ```
 dan akan tampil bahwa ip 127.0.0.1 kena blacklist pada syslog, dan 403 pada access.log
+## Log file
+Selain log pada syslog dan access.log, Mod-Evasive juga menghasilkan file dos-ipaddress (ex. dos-172.15.156.125) yang jika ditampilkan isinya adalah suatu bilangan integer yang menunjukan nomor PID yang dikembalikan oleh fungsi getpid()
 ## Integrasi dengan firewall
 Kita dapat mengaktifkan setting DOSSystemCommand untuk mengintegrasikan ModEvasive dengan Firewall dengan menggunakan iptables, dengan menghilangkan tanda # pada setting DOSSystemCommand untuk mengaktifkan iptables.
 ```
